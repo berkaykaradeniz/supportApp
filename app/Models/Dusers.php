@@ -21,12 +21,6 @@ class Dusers extends Model
         'name',
         'email',
         'password',
-        'surname',
-        'phone_number',
-        'birt_date',
-        'sexuality',
-        'length',
-        'kilo'
     ];
 
     /**

@@ -32,53 +32,32 @@ class UsersController extends Controller
             ];  
         }
     }
-    public function login(Users $user){
-        $email = request('email');
-        $hashed = Hash::make(request('password'));
+    public function login(){
+    
+        $user = Users::where('email', request('email'))->first();
 
-        $true = bcrypt(request('password'));
-      
-        $users = $user
-                    ->select('id','email','password')
-                    ->where([
-                                ['email', '=' , $email]
-                            ])->first();
+        if (!$user || ! Hash::check(request('password'), $user->password)) {
+            return response([
+                'message' => ['The provided credentials are incorrect.'. request('email')]
+            ], 500);
+        }
 
-                            return $true . ' - ' . $users->password;
-        //Bakılacak
-        if ($users && $true)
-        {
-            return [
-                'id' => $users->id,
-                'email' => $users->email,
-                'status' => "1"
-            ];
-        }
-        else{
-            return [
-                'status' => "0"
-            ];  
-        }
+        $userToken = $user->createToken('api-token')->plainTextToken;
+    
+        return response(['token' => $userToken], 200);
     }
 
    public function store(){
     request()->validate([//Request Controls needs to be add here.
             'name' => 'required',
-            'surname' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required'
         ]);
         $password = request('password');
         return Users::create([//Get request and post this columns.
             'name' => request('name'),
-            'surname' => request('surname'),
             'email' => request('email'),
             'password' => Hash::make($password),
-            'phone_number' => request('phone_number'),
-            'birth_date' => request('birth_date'),
-            'sexuality' => request('sexuality'),
-            'length' => request('length'),
-            'kilo' => request('kilo')
         ]);
     }
 

@@ -4,7 +4,6 @@ use App\Models\Users;
 use App\Http\Controllers\MealsController;
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\UsersController;
-use App\Http\Controllers\DuserController;
 
 
 use Illuminate\Http\Request;
@@ -37,4 +36,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 });
 
 
-Route::post('/token/CreateToken/', [TokenController::class, 'index']);
+Route::post('/login', [UsersController::class, 'login']);
+Route::post('/register', [UsersController::class, 'store']);//Save User Data
+
