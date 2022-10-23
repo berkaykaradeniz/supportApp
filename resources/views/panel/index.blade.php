@@ -6,7 +6,7 @@
 
       </div>
       <div class="container">
-            MainPage Test
+            LinkedIn : <a href="https://www.linkedin.com/in/berkay-karadeniz-60126b12b/" target="_blank">Berkay Karadeniz</a>
        </div>
     </main>
   </div>
