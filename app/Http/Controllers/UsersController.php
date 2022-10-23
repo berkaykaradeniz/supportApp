@@ -38,13 +38,17 @@ class UsersController extends Controller
 
         if (!$user || ! Hash::check(request('password'), $user->password)) {
             return response([
-                'message' => ['The provided credentials are incorrect.'. request('email')]
-            ], 500);
+                'message' => ['The provided credentials are incorrect.']
+            ], 404);
         }
 
         $userToken = $user->createToken('api-token')->plainTextToken;
     
-        return response(['token' => $userToken], 200);
+        return response(
+            [
+                'token' => $userToken,
+                'user_id' => $user->id        
+            ], 200);
     }
 
    public function store(){
@@ -57,7 +61,8 @@ class UsersController extends Controller
         return Users::create([//Get request and post this columns.
             'name' => request('name'),
             'email' => request('email'),
-            'password' => Hash::make($password),
+            'group_id' => 3,
+            'password' => Hash::make($password)
         ]);
     }
 

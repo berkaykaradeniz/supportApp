@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Meals extends Model
+class Ticket extends Model
 {
     use HasFactory;
 
     protected $fillable =[
-        'meal_name', 'meal_date', 'user_id'
+        'department_id', 'user_id', 'title', 'description','status'
     ];
 
         /**
@@ -21,6 +21,5 @@ class Meals extends Model
     protected $hidden = [
         'created_at',
         'updated_at',
-        'user_id'
     ];
 }

@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PagesController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -18,18 +20,13 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard/index');
-});
-
-Route::get('login', function () {
-    return view('login');
-});
-
-Route::get('register', function () {
-    return view('register');
+    return view('dashboard.index');
 });
 
 
+//PAGE
+Route::get('/login', [PagesController::class, 'login'])->name('login');
+Route::get('/register', [PagesController::class, 'register'])->name('register');
 
 /*
 
