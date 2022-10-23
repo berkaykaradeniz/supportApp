@@ -31,7 +31,8 @@ return new class extends Migration
                 'name' => 'admin',
                 'password' => bcrypt('123456'),
                 'email' => 'admin@admin',
-                'group_id' => 1
+                'group_id' => 1,
+                'department_id' => 1 //test
             )
         );
         

@@ -15,6 +15,10 @@ use App\Http\Controllers\PagesController;
 |
 */
 
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    //Token ile giriş yapılacak yer
+});
+
 Route::get('/', function () {
     return redirect('/dashboard');
 });
@@ -27,6 +31,12 @@ Route::get('/dashboard', function () {
 //PAGE
 Route::get('/login', [PagesController::class, 'login'])->name('login');
 Route::get('/register', [PagesController::class, 'register'])->name('register');
+
+Route::get('/panel', [PagesController::class, 'panelIndex'])->name('panel.index');
+Route::get('/panel/tickets', [PagesController::class, 'tickets'])->name('panel.tickets');
+Route::get('/panel/tickets/create', [PagesController::class, 'ticketCreate'])->name('panel.tickets.create');
+
+
 
 /*
 

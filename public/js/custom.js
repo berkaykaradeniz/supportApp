@@ -149,8 +149,7 @@ function register(){
                 columnDefs: [
                     {
                             "render" : function(data,type,row){
-                              return '<button type="button" class="btn btn-success btn-sm" onclick="editTicket(' + row.id+ ')">Edit Ticket</button>' +
-                              '<button type="button" class="btn btn-success btn-sm ms-1" onclick="asignToMeThisTicket(' + row.id + ')">Assign to Me</button>'
+                              return '<button type="button" class="btn btn-success btn-sm" onclick="editTicket(' + row.id+ ')">Edit Ticket</button>'
                         },
                         targets: -1,
                         data: null
@@ -171,6 +170,7 @@ function editTicket(ticket_id){
 }
 
 function getRandomUserForNewTicket() {
+    //Ticket will assing random department user
     var department_id = $('#department').val();
     var token = getCookie('Auth');
     var id = 0;
@@ -193,6 +193,45 @@ function getRandomUserForNewTicket() {
         if (json.status == 200)
         {
             $('#user_id').val(json.body.id);
+        }
+        else if(json.status == 404 || json.status == 401)
+        {
+            alert(json.body.message);
+        }
+    });
+}
+
+function createNewTicket() {
+    //Ticket will assing random department user
+    var department_id = $('#department').val();
+    var title = $('#title').val();
+    var description = $('#description').val();
+
+    var token = getCookie('Auth');
+    var user_id = $('#user_id').val();
+
+    fetch(url + '/api/tickets/createTicket', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token,
+            mode: 'no-cors',
+
+        },
+        body: JSON.stringify(
+            {
+                "department_id" : department_id,
+                "user_id" : user_id,
+                "title" : title,
+                "description" : description
+            })
+    })
+    .then(resp => resp.json().then(data => ({status: resp.status, body: data})))
+    .then(json => 
+    {
+        if (json.status == 200 || json.status == 201)
+        {
+            window.location.href = url + '/panel/tickets';
         }
         else if(json.status == 404 || json.status == 401)
         {

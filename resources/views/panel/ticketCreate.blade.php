@@ -25,7 +25,7 @@
             <textarea class="form-control" id="description" rows="3" placeholder="Description"></textarea>
           </div>
           <input type="text" id="user_id" value="0" hidden>
-          <button class="btn btn-primary mt-5" onclick='getRandomUserForNewTicket();'>Send Ticket</button>
+          <button class="btn btn-primary mt-5" onclick='createNewTicket();'>Send Ticket</button>
        </div>
     </main>
   </div>
@@ -35,6 +35,7 @@
 <script>
 
 getTickets();
+getRandomUserForNewTicket();
 
 
 </script>

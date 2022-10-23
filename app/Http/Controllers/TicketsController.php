@@ -17,7 +17,6 @@ class TicketsController extends Controller
     }
 
     public function get(Ticket $tickets){
-        //user_id ve meal_date yollayarak günün öğününü getireceğim.
         $user_id = request('user_id');
         $tickets = $tickets
                         ->where('user_id', $user_id)
@@ -52,39 +51,26 @@ class TicketsController extends Controller
         }
     }
 
-   public function store(){
-       
-    request()->validate([//Request Controls needs to be add here.
-            'meal_name' => 'required',
-            'meal_date' => 'required',
+   public function createTicket(){
+        request()->validate([//Request Controls needs to be add here.
+            'department_id' => 'required',
+            'title' => 'required',
             'user_id' => 'required',
+            'description' => 'required',
+
         ]);
     
         return Ticket::create([//Get request and post this columns.
-            'meal_date' => request('meal_date'),
-            'meal_name' => request('meal_name'),
-            'user_id' => request('user_id')
+            'department_id' => request('department_id'),
+            'title' => request('title'),
+            'user_id' => request('user_id'),
+            'description' => request('description')
         ]);
     }
 
-    public function update(Ticket $ticket){
-        request()->validate([//Request Controls needs to be add here.
-            'meal_name' => 'required',
-            'meal_date' => 'required',
-        ]);
-    
-       $status = $meal->update([
-            'meal_date' => request('meal_date'),
-            'meal_name' => request('meal_name')
-        ]);
-    
-        return [
-            'status' => $status
-        ];
-    }
 
-    public function delete(Meals $meal){
-        $status = $meal->delete();
+    public function delete(Ticket $ticket){
+        $status = $ticket->delete();
 
         return [
             'status' => $status
