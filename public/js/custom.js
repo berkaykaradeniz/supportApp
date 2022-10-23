@@ -23,6 +23,16 @@ function setCookie(cname, cvalue) {
     return "";
   }
 
+  function deleteCookie(c_name) {
+    setCookie(c_name,"",-1);
+  }
+
+  
+function signOut(){//sign out
+    deleteCookie('Auth');
+    deleteCookie('User_id');
+    window.location.href = url;
+}
 
 //LOGIN
 function checkLogin(){
@@ -107,7 +117,6 @@ function register(){
   }
 
   //TICKETS
-
   function getTickets(){
 
     var user_id = getCookie('User_id');
@@ -165,12 +174,8 @@ function register(){
     })
 }
 
-function editTicket(ticket_id){
-    console.log(ticket_id);
-}
-
+//Ticket will assing random department user
 function getRandomUserForNewTicket() {
-    //Ticket will assing random department user
     var department_id = $('#department').val();
     var token = getCookie('Auth');
     var id = 0;
@@ -200,7 +205,7 @@ function getRandomUserForNewTicket() {
         }
     });
 }
-
+//Create New Ticket
 function createNewTicket() {
     //Ticket will assing random department user
     var department_id = $('#department').val();
@@ -232,6 +237,125 @@ function createNewTicket() {
         if (json.status == 200 || json.status == 201)
         {
             window.location.href = url + '/panel/tickets';
+        }
+        else if(json.status == 404 || json.status == 401)
+        {
+            alert(json.body.message);
+        }
+    });
+}
+//open edit ticket page
+function editTicket(ticket_id){
+    window.location.href = url + '/panel/ticket/' + ticket_id;
+}
+
+//Get ticket details
+function getTicketDetails() {
+    var id = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
+
+    var token = getCookie('Auth');
+    var user_id = getCookie('User_id');
+
+
+    fetch(url + '/api/ticket/getTicket', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token,
+            mode: 'no-cors',
+
+        },
+        body: JSON.stringify(
+            {
+                "ticket_id" : id,
+                "user_id" : user_id
+            })
+    })
+    .then(resp => resp.json().then(data => ({status: resp.status, body: data})))
+    .then(json => 
+    {
+        if (json.status == 200 || json.status == 201)
+        {
+            $('#ticket_title').html(json.body.title);
+            $('#ticket_description').html(json.body.description);
+            $('#ticket_id').append('#' + id);
+
+            $('#user_id').append('#' + json.body.user_id);
+
+        }
+        else if(json.status == 404 || json.status == 401)
+        {
+            alert(json.body.message);
+        }
+    });
+}
+
+function sendTicketAnswer() {
+
+    var token = getCookie('Auth');
+    var user_id = getCookie('User_id');
+    var answer = $('#answer').val();
+    var ticket_id = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
+
+
+    fetch(url + '/api/ticket/sendTicketAnswer', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token,
+            mode: 'no-cors',
+
+        },
+        body: JSON.stringify(
+            {
+                "ticket_id" : ticket_id,
+                "user_id" : user_id,
+                "answer" : answer
+            })
+    })
+    .then(resp => resp.json().then(data => ({status: resp.status, body: data})))
+    .then(json => 
+    {
+        if (json.status == 200 || json.status == 201)
+        {
+            window.location.href = url + '/panel/ticket/' + ticket_id;
+        }
+        else if(json.status == 404 || json.status == 401)
+        {
+            alert(json.body.message);
+        }
+    });
+}
+
+function listAnswers() {
+
+    var token = getCookie('Auth');
+
+    var ticket_id = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
+
+    fetch(url + '/api/ticket/listTicketAnswers', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token,
+            mode: 'no-cors',
+
+        },
+        body: JSON.stringify(
+            {
+                "ticket_id" : ticket_id
+            })
+    })
+    .then(resp => resp.json().then(data => ({status: resp.status, body: data})))
+    .then(json => 
+    {
+        if (json.status == 200 || json.status == 201)
+        {
+            json.body.forEach(function(item) {
+                var message = 'User : ' + item.user_id + ' Answer : ' + item.answer;
+                $('#ticket_answers').append(message + '<br>');
+            });
+         
         }
         else if(json.status == 404 || json.status == 401)
         {

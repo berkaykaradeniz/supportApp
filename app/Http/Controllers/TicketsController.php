@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Ticket;
 use App\Models\Users;
-
+use App\Models\TicketAnswers;
 
 class TicketsController extends Controller
 {
@@ -66,6 +66,54 @@ class TicketsController extends Controller
             'user_id' => request('user_id'),
             'description' => request('description')
         ]);
+    }
+
+    public function getTicket(Ticket $ticket){
+        $ticket_id = request('ticket_id');
+
+        $ticket = $ticket
+                        ->where('id', $ticket_id)
+                        ->first();
+        if ($ticket)
+        {
+            return $ticket->toJson();
+        }
+        else{
+            return [
+                'status' => 'Fail'
+            ];  
+        }
+    }
+
+    public function sendTicketAnswer(){
+        request()->validate([//Request Controls needs to be add here.
+            'ticket_id' => 'required',
+            'user_id' => 'required',
+            'answer' => 'required'
+        ]);
+    
+        return TicketAnswers::create([//Get request and post this columns.
+            'ticket_id' => request('ticket_id'),
+            'user_id' => request('user_id'),
+            'answer' => request('answer')
+        ]);
+    }
+
+    public function listTicketAnswers(TicketAnswers $ticketAnswers){
+        $ticket_id = request('ticket_id');
+
+        $ticketAnswers = $ticketAnswers
+                        ->where('ticket_id', $ticket_id)
+                        ->get();
+        if ($ticketAnswers)
+        {
+            return $ticketAnswers->toJson();
+        }
+        else{
+            return [
+                'status' => 'Fail'
+            ];  
+        }
     }
 
 

@@ -29,4 +29,9 @@ class PagesController extends Controller
     {
         return view('panel.ticketCreate');
     }
+    public function ticketDetail()
+    {
+        return view('panel.ticketDetail');
+    }
+    
 }

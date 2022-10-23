@@ -36,7 +36,7 @@ Route::get('/panel', [PagesController::class, 'panelIndex'])->name('panel.index'
 Route::get('/panel/tickets', [PagesController::class, 'tickets'])->name('panel.tickets');
 Route::get('/panel/tickets/create', [PagesController::class, 'ticketCreate'])->name('panel.tickets.create');
 
-
+Route::get('/panel/ticket/{id}', [PagesController::class, 'ticketDetail'])->name('panel.ticket.detail');
 
 /*
 

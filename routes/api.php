@@ -22,21 +22,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
-    Route::get('/meals', [MealsController::class, 'index']);
-    Route::post('/meals',  [MealsController::class, 'store']);
-    Route::put('/meals/{meal}', [MealsController::class, 'update']);
-    Route::delete('/meals/{meal}', [MealsController::class, 'delete']);
-    
-    Route::post('/users', [DuserController::class, 'store']);//Save User Data
-    Route::get('/users/{id}',  [DuserController::class, 'get']);//Get User Data
-    Route::post('/users/login',  [DuserController::class, 'login']);//User Can Login
-    Route::put('/users/{user}', [DuserController::class, 'update']);//Edit User Data
-    Route::delete('/users/{user}', [DuserController::class, 'delete']);//Delete User Data
-
-
-    Route::post('/tickets/getUserTickets',  [TicketsController::class, 'get']);
-    Route::post('/tickets/getDepartmentUser',  [TicketsController::class, 'getDepartmentUserRandom']);
-    Route::post('/tickets/createTicket',  [TicketsController::class, 'createTicket']);
+    Route::post('/tickets/getUserTickets',  [TicketsController::class, 'get']);//Get One user tickets
+    Route::post('/tickets/getDepartmentUser',  [TicketsController::class, 'getDepartmentUserRandom']); //Get Department User Randomly
+    Route::post('/tickets/createTicket',  [TicketsController::class, 'createTicket']);//Create New Ticket
+    Route::post('/ticket/getTicket',  [TicketsController::class, 'getTicket']);//Get Ticket Master
+    Route::post('/ticket/sendTicketAnswer',  [TicketsController::class, 'sendTicketAnswer']);//Get Ticket Master
+    Route::post('/ticket/listTicketAnswers',  [TicketsController::class, 'listTicketAnswers']);//Get Ticket Master
 
 });
 
