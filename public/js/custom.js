@@ -42,7 +42,8 @@ function checkLogin(){
     fetch(url + '/api/login', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         body: JSON.stringify(
             {
@@ -76,13 +77,13 @@ function register(){
     var name = $('#name').val();
     var email = $('#email').val();
     var password = $('#password').val();
-
-
+    
     fetch(url + '/api/register', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Accept' : 'aplication/json'
+            'Accept' : 'aplication/json',
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         body: JSON.stringify(
             {
@@ -128,6 +129,7 @@ function register(){
         headers: {
             'Content-Type': 'application/json',
             'Accept' : 'aplication/json',
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             'Authorization': 'Bearer ' + token,
             mode: 'no-cors',
 
@@ -183,6 +185,7 @@ function getRandomUserForNewTicket() {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             'Authorization': 'Bearer ' + token,
             mode: 'no-cors',
 
@@ -219,6 +222,7 @@ function createNewTicket() {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             'Authorization': 'Bearer ' + token,
             mode: 'no-cors',
 
@@ -261,6 +265,7 @@ function getTicketDetails() {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             'Authorization': 'Bearer ' + token,
             mode: 'no-cors',
 
@@ -302,6 +307,7 @@ function sendTicketAnswer() {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             'Authorization': 'Bearer ' + token,
             mode: 'no-cors',
 
@@ -337,6 +343,7 @@ function listAnswers() {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             'Authorization': 'Bearer ' + token,
             mode: 'no-cors',
 
